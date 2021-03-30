@@ -17,7 +17,7 @@ void odd_even(SeqList *L) {
 		if((i<j) && (L->elem[i] % 2 == 0) && (L->elem[j] % 2 == 1)){
 			temp=L->elem[i];
 			L->elem[i]=L->elem[j];
-			L->elem[j]=temp; 
+			L->elem[j]=temp;   
 			i++;
 			j--;
 		}
