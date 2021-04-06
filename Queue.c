@@ -1,62 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdbool.h>
 #define ElemType int
-
+ 
 typedef struct _QueueNode {
-    ElemType data;          /*数据域*/
-    struct _QueueNode *next;      /*指针域*/
-}LinkQueueNode, *LinkQueue;
-
-bool init_queue(LinkQueue *LQ)
-{
-	LQ = NULL;
-	return true;
+    ElemType data;
+    struct _QueueNode* next;
+}LinkQueueNode, * LinkQueue;
+ 
+ 
+bool init_queue(LinkQueue* LQ) {
+    *LQ = (LinkQueueNode*)malloc(sizeof(LinkQueueNode));
+    if (*LQ == NULL) {
+    	return false;
+    }    
+    (*LQ)->next = (*LQ);
+    return true;
 }
-
-bool enter_queue(LinkQueue *LQ, ElemType x)
-{
-	/*LinkQueueNode *temp;
-	temp = (LinkQueueNode*)malloc(sizeof(LinkQueueNode));
-	temp->data = x;
-	if(temp != NULL) {
-		temp->next = NULL;
-		LQ = temp;
-	}*/
-	LinkQueueNode *p;
-	p = (LinkQueueNode *)malloc(sizeof(LinkQueueNode));
-	p->data = x;
-	if (LQ == NULL) {
-		LQ = &p;
-		LQ->next = p;
-	}
-	else {
-		p->next = LQ->next;
-		LQ->next = p;
-		LQ = p;
-	}
+ 
+bool enter_queue(LinkQueue* LQ, ElemType x) {
+    LinkQueue p= (LinkQueueNode*)malloc(sizeof(LinkQueueNode));
+    if (p == NULL) {
+    	return false;
+    }
+    p->data = x;
+    p->next = (*LQ)->next;
+    (*LQ)->next = p;
+    (*LQ) = p;
+    return true;
 }
-
-bool leave_queue(LinkQueue *LQ, ElemType *x)
-{
-	/*LinkQueueNode *q;
-	if(LQ == NULL) {
-		return false;
-	}
-	else if (LQ->next == LQ) {
-		*x = LQ->data;
-		free(LQ);
-		LQ = NULL;
-		return true;
-	}
-	else {
-		q = LQ->next;
-		*x = q->data;
-		LQ->next = q->next;
-		free(q);
-		return true;
-	}*/
+ 
+bool leave_queue(LinkQueue* LQ, ElemType* x) {
+    if ((*LQ)->next == (*LQ))
+        return false;
+    LinkQueue p = (*LQ)->next->next;
+    *x = p->data;
+    if ((*LQ)->next->next != (*LQ)) {
+        (*LQ)->next->next = (*LQ)->next->next->next;
+    }
+    else {
+        (*LQ) = (*LQ)->next;
+        (*LQ)->next = (*LQ);
+    }
+    free(p);
+    return true;
+    
 }
 
 int main() {
