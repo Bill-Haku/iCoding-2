@@ -24,18 +24,20 @@ bool path(BiTNode* root, BiTNode* node, Stack* s);
 
 BiTNode* nearest_ancestor(BiTree root, BiTNode* p, BiTNode* q) {
     int num1 = 0, num2 = 0;
-    Stack s1, s2;
+    Stack stack1, stack2;
     BiTNode *Node1[100], *Node2[100];
-    init_stack(&s1); 
-    init_stack(&s2);
+    init_stack(&stack1); 
+    init_stack(&stack2);
     
-    path(root, p, &s1); 
-    path(root, q, &s2);
+    path(root, p, &stack1); 
+    path(root, q, &stack2);
     
-    while (!is_empty(&s1))
-        pop(&s1, &Node1[num1++]);
-    while (!is_empty(&s2))
-        pop(&s2, &Node2[num2++]);
+    while (!is_empty(&stack1)) {
+        pop(&stack1, &Node1[num1++]);
+    }
+    while (!is_empty(&stack2)) {
+        pop(&stack2, &Node2[num2++]);
+    }
         
     for (int i = 0; i < num1; ++i) { 
         for (int j = 0; j < num2; ++j) {
