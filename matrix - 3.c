@@ -29,7 +29,10 @@ bool del_vertex(ListGraph *G, VertexType v); //删除顶点 v
 
 bool del_vertex(ListGraph* G, VertexType v) {
    	ArcNode *p, *pre, *del;
-    if (locate_vertex(G, v) != -1) {
+    if (locate_vertex(G, v) == -1) {
+        return false;
+    } 
+    else {
         int locV = locate_vertex(G, v);
         (*G).vertex[locV].data = 0; 
         p = (*G).vertex[locV].firstarc;
@@ -69,10 +72,7 @@ bool del_vertex(ListGraph* G, VertexType v) {
             }
         }
         (*G).vexnum--;
-        return true;
-    } 
-    else {
-        return false;
+        return true;    
     }
 }
 
